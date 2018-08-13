@@ -1,0 +1,29 @@
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<style>
+	.complete { color: green; }
+	a {
+		text-decoration: none;
+		color: red;
+	}
+</style>
+<body>
+	<h1>Todo List</h1>
+	<form method='POST' action='{% url "addTodos" %}'>
+		{% csrf_token %}
+		{{ form.as_p }}
+	</form>
+	{% for todo in todos %}
+		{% if todo.complete %}
+			<p class='complete'>{{ todo.task }}</p>
+		{% else %}
+			<a href='{% url "completeTodos" todo.id %}'><p>{{ todo.task }}</p></a>
+		{% endif %}
+	{% endfor %}
+	<a href="{% url 'deleteTodos' %}"><button>Delete Completed</button></a>
+	<a href="{% url 'deleteAllTodos' %}"><button>Delete All</button></a>
+</body>
+</html>
